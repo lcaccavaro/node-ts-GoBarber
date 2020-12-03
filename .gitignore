@@ -1,3 +1,6 @@
 #complete as necessary
 
 node_modules
+
+tmp/*
+!tmp/.gitkeep
