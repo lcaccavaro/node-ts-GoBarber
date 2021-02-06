@@ -13,6 +13,6 @@ export default {
       const filename = `${fileHash}-${file.originalname}`;
 
       callback(null, filename);
-    }
-  })
-}
+    },
+  }),
+};

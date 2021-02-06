@@ -23,6 +23,16 @@
         "prettier"
     ],
     "rules": {
+      "no-useless-constructor": "off",
+      "class-methods-use-this": "off",
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          "selector": "interface",
+          "prefix": ["I"],
+          "format": ["PascalCase"]
+        }
+      ],
       "import/extensions": [
         "error",
         "ignorePackages",
