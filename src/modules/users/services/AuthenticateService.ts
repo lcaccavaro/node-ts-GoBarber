@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { injectable, inject } from 'tsyringe';
 
@@ -8,6 +7,7 @@ import User from '../infra/typeorm/entities/User';
 import authConfig from '../../../config/auth.config';
 
 import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   email: string;
@@ -24,6 +24,8 @@ class AuthenticateService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -32,8 +34,10 @@ class AuthenticateService {
       throw Error('Invalid Email or Password');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const passwordMatched = await compare(password, user.password!);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password!,
+    );
 
     if (!passwordMatched) {
       throw Error('Invalid Email or Password');
