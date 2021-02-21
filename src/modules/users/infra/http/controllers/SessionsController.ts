@@ -1,3 +1,4 @@
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import 'reflect-metadata';
 import { container } from 'tsyringe';
@@ -15,14 +16,6 @@ export default class SessionsController {
       password,
     });
 
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    };
-
-    return response.json({ user: userWithoutPassword, token });
+    return response.json({ user: classToClass(user), token });
   }
 }

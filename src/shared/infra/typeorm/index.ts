@@ -1,6 +1,6 @@
-import { createConnection } from 'typeorm';
+import { createConnections } from 'typeorm';
 
-createConnection();
+createConnections();
 // .then(() => {
 //   console.log("Connected to the database")
 // })
