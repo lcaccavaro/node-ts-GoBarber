@@ -4,6 +4,7 @@ import User from '../infra/typeorm/entities/User';
 
 import IStorageProvider from '../../../shared/container/providers/StorageProvider/models/IStorageProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
+import AppError from '../../../shared/errors/AppError';
 
 interface IRequest {
   userId: string;
@@ -23,7 +24,7 @@ class UpdateUserAvatarService {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {
-      throw new Error('Only authenticated users can update avatar');
+      throw new AppError('Only authenticated users can update avatar');
     }
 
     if (user.avatar) {

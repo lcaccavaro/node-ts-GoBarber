@@ -8,6 +8,7 @@ import authConfig from '../../../config/auth.config';
 
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import AppError from '../../../shared/errors/AppError';
 
 interface IRequest {
   email: string;
@@ -31,7 +32,7 @@ class AuthenticateService {
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
-      throw Error('Invalid Email or Password');
+      throw new AppError('Invalid Email or Password');
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -40,7 +41,7 @@ class AuthenticateService {
     );
 
     if (!passwordMatched) {
-      throw Error('Invalid Email or Password');
+      throw new AppError('Invalid Email or Password');
     }
 
     const { secret, expiresIn } = authConfig.jwt;
