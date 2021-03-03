@@ -13,6 +13,7 @@ import AppError from '../../errors/AppError';
 
 import '../typeorm';
 import '../../container';
+import '../../../modules/users/providers';
 
 const app = express();
 
